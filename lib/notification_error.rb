@@ -10,39 +10,39 @@ class NotificationError
     end
   end
 
-  def self.config_extras(fcm_key, mailgun_key, email_to, send_email = false)
+  def self.config_extras(fcm_key, mailgun_key, email_to)
 
   	@fcm_key = fcm_key
 
   	@mailgun_key = mailgun_key
 
-  	@send_email = send_email
-
   	@email_to = email_to
 
   end
 
-  def self.process_notification(domain, summary, message)
+  def self.process_notification(collection, domain, summary, message, push_notification=false, email_notification=false)
 
   	require "google/cloud/firestore"
 
     firestore = Google::Cloud::Firestore.new
 
-    table = firestore.collection("errors")
+    table = firestore.collection(collection)
 
-    random_ref =  table.add({ domain: domain, summary: summary, message: message, register_at: Time.now })
+    random_ref =  table.add({ domain: domain, summary: summary, message: message, register_at: Time.now.in_time_zone("Madrid") })
 
     Rails.logger.warn "NOTIFICATION-ERROR: #{random_ref.inspect}"
 
     fcm_message = "#{domain} #{summary}"
 
-    send_notification(fcm_message)
+    if push_notification
+      send_notification(fcm_message)
+    end
 
     mailgun_message = "#{domain}<br><br>#{summary}<br><br>#{message}"
 
     subject = "ERROR #{fcm_message}"
 
-    if @send_email
+    if email_notification
     	mail_send(subject, mailgun_message)
     end
 
