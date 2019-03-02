@@ -30,7 +30,7 @@ class NotificationError
 
     random_ref =  table.add({ domain: domain, summary: summary, message: message, register_at: Time.now.in_time_zone("Madrid") })
 
-    Rails.logger.warn "NOTIFICATION-ERROR: #{random_ref.inspect}"
+    #Rails.logger.warn "NOTIFICATION-ERROR: #{random_ref.inspect}"
 
     fcm_message = "#{domain} #{summary}"
 
@@ -57,7 +57,7 @@ class NotificationError
 
 	  response = fcm.send_to_topic("matricula", options)
 
-		Rails.logger.warn "NOTIFICATION-ERROR: #{response.inspect}"
+		#Rails.logger.warn "NOTIFICATION-ERROR: #{response.inspect}"
 	end
 
 	def self.mail_send(subject, content)
@@ -73,7 +73,7 @@ class NotificationError
 
 	  envio = mg_client.send_message "expansia.es", message_params
 
-	  Rails.logger.warn "NOTIFICATION-ERROR: #{envio.inspect}"
+	  #Rails.logger.warn "NOTIFICATION-ERROR: #{envio.inspect}"
 
 	end
 
