@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'notification_error'
-  s.version     = '0.0.4'
-  s.date        = '2019-02-25'
+  s.version     = '0.0.5'
+  s.date        = '2019-03-03'
   s.summary     = "Notification Error"
   s.description = "Invespromo"
   s.authors     = ["Carlos Montalvo"]
